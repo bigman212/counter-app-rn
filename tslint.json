@@ -75,7 +75,7 @@
       150
     ],
     "no-require-imports": false,
-    "no-trailing-whitespace": true,
+    "no-trailing-whitespace": false,
     "object-literal-sort-keys": false,
     "trailing-comma": [
       true,
@@ -115,7 +115,8 @@
     ],
     "semicolon": [
       true,
-      "never"
+      "always",
+      "ignore-bound-class-methods"
     ],
     "variable-name": [
       true,

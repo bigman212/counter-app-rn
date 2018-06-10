@@ -30,6 +30,9 @@ build/
 local.properties
 *.iml
 
+/src/**/*.js
+/src/**/*.jsx
+
 # node.js
 #
 node_modules/
