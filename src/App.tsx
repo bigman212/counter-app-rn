@@ -1,30 +1,6 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import { Component } from 'react'
-import React from 'react'
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
-
-interface Human {
-  name: string,
-  age: number
-}
-
-interface MyTextProps {
-  human: Human
-}
-
-const MyText: React.SFC<MyTextProps> = ({human}) => {
-  return <Text>{human.name + human.age}</Text>
-}
+import React from 'react';
+import {View} from 'react-native';
+import CounterScreen from './screens/CounterScreen';
 
 export default class App extends React.Component {
     render() {
