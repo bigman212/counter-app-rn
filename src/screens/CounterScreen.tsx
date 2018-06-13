@@ -2,6 +2,8 @@ import Counter from '../components/Counter';
 import {StyleSheet, TextStyle, View, ViewStyle} from 'react-native';
 import * as React from 'react';
 import CounterButton from '../components/Button';
+import {connect, Dispatch} from 'react-redux';
+import {StoreState} from '../reducers';
 
 interface CounterScreenProps {
   defaultValue: number;
@@ -15,7 +17,7 @@ class CounterScreen extends React.Component<CounterScreenProps, CounterScreenSta
 
   constructor(props: CounterScreenProps) {
     super(props);
-    this.state = {count: this.props.defaultValue};
+    console.log(this.state.count);
   }
 
   _onPlusClicked = () => {
@@ -35,7 +37,9 @@ class CounterScreen extends React.Component<CounterScreenProps, CounterScreenSta
   render() {
     return (
       <View style={styles.wrapper}>
-        <Counter count={this.state.count} />
+        <View style={styles.counterContainer}>
+          <Counter count={this.state.count} />
+        </View>
         <View style={styles.buttonContainer}>
           <CounterButton style={styles.plusButton} text='+' onPress={this._onPlusClicked} />
           <CounterButton style={styles.minusButton} text='-' onPress={this._onMinusClicked} />
@@ -50,31 +54,44 @@ interface Style {
   plusButton: TextStyle;
   minusButton: TextStyle;
   buttonContainer: ViewStyle;
-  buttonStyle: ViewStyle;
+  counterContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<Style>({
-  minusButton: {
-    width: 30,
-    height: 30
-  },
-  plusButton: {
-    width: 30,
-    height: 30
+  wrapper: {
+    flex: 4,
+    flexDirection: 'column'
   },
 
-  wrapper: {
-    alignItems: 'center'
+  counterContainer: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 
   buttonContainer: {
-    // backgroundColor: 'black',
-    // flex: 1,
-    flexDirection: 'row'
-    // justifyContent: 'center'
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-around',
+    marginBottom: 100
   },
 
-  buttonStyle: {}
+  plusButton: {
+    width: 100,
+    height: 60,
+    backgroundColor: '#35C2FF'
+  },
+
+  minusButton: {
+    width: 100,
+    height: 60,
+    backgroundColor: '#ff0a16'
+
+  }
 });
 
-export default CounterScreen;
+const mapStateToProps = (state: StoreState) => state.counterValue;
+
+// Now let's connect our component!
+export default connect(mapStateToProps)(CounterScreen);
