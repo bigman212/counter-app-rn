@@ -1,11 +1,14 @@
 import React from 'react';
-import {View} from 'react-native';
 import CounterScreen from './screens/CounterScreen';
+import {Provider} from 'react-redux';
+import store from './store';
 
 export default class App extends React.Component {
   render() {
     return (
-      <CounterScreen defaultValue={0} />
+      <Provider store={store}>
+        <CounterScreen />
+      </Provider>
     );
   }
 }
