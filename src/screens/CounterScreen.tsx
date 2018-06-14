@@ -2,43 +2,35 @@ import Counter from '../components/Counter';
 import {StyleSheet, TextStyle, View, ViewStyle} from 'react-native';
 import * as React from 'react';
 import CounterButton from '../components/Button';
-import {connect, Dispatch} from 'react-redux';
-import {StoreState} from '../reducers';
+import {connect} from 'react-redux';
+import {decCounter, incCounter} from '../actions/actions';
 
 interface CounterScreenProps {
-  defaultValue: number;
-}
-
-interface CounterScreenState {
   count: number;
+  plusClicked: () => void;
+  minusClicked: () => void;
 }
 
-class CounterScreen extends React.Component<CounterScreenProps, CounterScreenState> {
+class CounterScreen extends React.Component<CounterScreenProps, {}> {
 
-  constructor(props: CounterScreenProps) {
+  constructor(props: any) {
     super(props);
-    console.log(this.state.count);
+    console.log(this.props);
   }
 
   _onPlusClicked = () => {
-    this.setState(
-      {count: this.state.count + 1}
-    );
+    this.props.plusClicked();
   };
 
   _onMinusClicked = () => {
-    if (this.state.count > 0) {
-      this.setState(
-        {count: this.state.count - 1}
-      );
-    }
+    this.props.minusClicked();
   };
 
   render() {
     return (
       <View style={styles.wrapper}>
         <View style={styles.counterContainer}>
-          <Counter count={this.state.count} />
+          <Counter count={this.props.count} />
         </View>
         <View style={styles.buttonContainer}>
           <CounterButton style={styles.plusButton} text='+' onPress={this._onPlusClicked} />
@@ -91,7 +83,13 @@ const styles = StyleSheet.create<Style>({
   }
 });
 
-const mapStateToProps = (state: StoreState) => state.counterValue;
+const mapStateToProps = (state: any) => ({
+  count: state.counter.value
+});
 
-// Now let's connect our component!
-export default connect(mapStateToProps)(CounterScreen);
+const mapDispatchToProps = {
+  plusClicked: incCounter,
+  minusClicked: decCounter
+};
+
+export default connect<any, any, any>(mapStateToProps, mapDispatchToProps)(CounterScreen);
