@@ -1,10 +1,10 @@
 import * as fromCounter from './counter';
 import {combineReducers} from 'redux';
 
-export interface State {
+interface StoreState {
   counter: fromCounter.State;
 }
 
-export const reducer = combineReducers<State>({
+export const reducers = combineReducers<StoreState>({
   counter: fromCounter.counterReducer
 });
