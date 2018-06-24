@@ -4,9 +4,12 @@ import * as React from 'react';
 import CounterButton from '../components/Button';
 import {connect} from 'react-redux';
 import {decCounter, incCounter} from '../actions/actions';
+import StorageInstance from '../storage/Storage';
+import {Constants} from '../constants';
 
 interface CounterScreenProps {
   count: number;
+  fetched: number;
   plusClicked: () => void;
   minusClicked: () => void;
 }
@@ -18,12 +21,23 @@ class CounterScreen extends React.Component<CounterScreenProps, {}> {
     console.log(this.props);
   }
 
+  componentDidUpdate(prevProps) {
+    console.log(prevProps);
+  }
+
+  valueHasChanged = () => {
+    StorageInstance.getInstance().setItem(Constants.Storage.COUNTER_VALUE_KEY, this.props.count.toString())
+      .catch(error => console.log(error));
+  };
+
   _onPlusClicked = () => {
     this.props.plusClicked();
+    this.valueHasChanged();
   };
 
   _onMinusClicked = () => {
     this.props.minusClicked();
+    this.valueHasChanged();
   };
 
   render() {
@@ -84,7 +98,8 @@ const styles = StyleSheet.create<Style>({
 });
 
 const mapStateToProps = (state: any) => ({
-  count: state.counter.value
+  count: state.counter.value,
+  fetched: state.counter.fetched
 });
 
 const mapDispatchToProps = {

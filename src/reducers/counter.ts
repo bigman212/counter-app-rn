@@ -1,12 +1,24 @@
 import {Action, ActionTypes} from '../actions/actions';
+import StorageInstance from '../storage/Storage';
+import {Constants} from '../constants';
 
 export interface State {
   value: number;
+  fetched: boolean;
 }
 
-export const initialState: State = {
-  value: 0
-};
+function getInitialState(): State {
+  const state: State = {value: 0, fetched: false};
+  StorageInstance.getInstance().getItem(Constants.Storage.COUNTER_VALUE_KEY)
+    .then(value => {
+      state.value = Number(value);
+      state.fetched = true;
+      console.log("yes!!!!!!!!");
+    });
+  return state;
+}
+
+const initialState: State = getInitialState();
 
 export function counterReducer(state: State = initialState, action: Action) {
   switch (action.type) {
